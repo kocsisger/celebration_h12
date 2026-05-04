@@ -1,6 +1,8 @@
 package hu.unideb.inf.celebration;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import hu.unideb.inf.celebration.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+    private String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +32,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.downloadButton.setOnClickListener(view -> startDownload());
+        binding.playButton.setOnClickListener(view -> playSong());
+        path = getFilesDir().getParent();
     }
 
     private void startDownload() {
         new DownloadAsyncTask(
                 binding.downloadButton,
                 binding.progressBar,
-                binding.downloadTextView
+                binding.downloadTextView,
+                path
         ).execute();
+    }
+
+    private MediaPlayer mPlayer;
+    public void playSong() {
+        if (mPlayer==null)
+            mPlayer = new MediaPlayer();
+        else
+            mPlayer.reset();
+
+        try {
+            mPlayer.setDataSource(
+                    path + "/files/song.mp3");
+            mPlayer.prepare();
+            // Start playing the Music file
+            mPlayer.start();
+        } catch (Exception e) {
+            Log.e("IOEX", e.getMessage());
+        }
     }
 }
