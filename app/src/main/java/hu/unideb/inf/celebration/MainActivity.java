@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startDownload() {
+        new DownloadAsyncTask(
+                binding.downloadButton,
+                binding.progressBar,
+                binding.downloadTextView
+        ).execute();
 
     }
 }

@@ -22,10 +22,19 @@ public class DownloadAsyncTask extends AsyncTask<Void, Integer, String> {
     @Override
     protected String doInBackground(Void... voids) {
         try {
-            Thread.sleep(1000);
+            for (int i = 0; i < 100; i++) {
+                Thread.sleep(10);
+                publishProgress(i);
+            }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         return "";
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+        weakProgressBar.get().setProgress(values[0]);
     }
 }
