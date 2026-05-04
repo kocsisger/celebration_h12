@@ -37,6 +37,5 @@ public class MainActivity extends AppCompatActivity {
                 binding.progressBar,
                 binding.downloadTextView
         ).execute();
-
     }
 }
